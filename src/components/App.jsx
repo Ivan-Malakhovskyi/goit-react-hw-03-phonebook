@@ -11,7 +11,7 @@ import { MainTitle, Title } from "./phonebook/ContactForm.styled";
 
 
 const initialValue = {
-  contacts: [    {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
+  contacts: [ {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
     {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
     {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
     {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},],
@@ -40,36 +40,32 @@ componentDidMount = () => {
 
 
   componentDidUpdate = (prevProps, prevState) => {
-    // console.log("prevState:", prevState)
-    // console.log("this.state:",this.state )
-    console.log(prevState.contacts === this.state.contacts)
+
+
 
     const isAddedNewContact = prevState.contacts !== this.state.contacts 
       
-    const isAddedSearchFilters = prevState.filter !== this.state.filter
+    // const isAddedSearchFilters = prevState.filter !== this.state.filter
       
-    if (isAddedNewContact || isAddedSearchFilters) 
+    if (isAddedNewContact) 
     localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
-          localStorage.setItem('filter',JSON.stringify(this.state.filter))
     }
-
-
-
+    
+       
+  
+  
   handleSubmit = (values,{resetForm})  => {
-    const { contacts, name, number } = values
-
-    console.log(values)
+    const { contacts, name } = values
 
 
-    const isContactInPhoneBook = contacts.find((contact) => contact.name === name && contact.number === number) 
-
-    if (isContactInPhoneBook) {
+    if (this.state.contacts.find((contact) => contact.name === name)) {
+      console.log(contacts.some((contact) => contact.name))
       toast.error(`${name} already exists.`)
       resetForm()
       return
     }
 
-    toast.success(`${name} has succesfully added to your phonebook`)   
+    
     
     const newContact = {
       name: values.name,
@@ -77,12 +73,15 @@ componentDidMount = () => {
       id: nanoid(),
     }
     console.log(newContact)
-
+    
     this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
       name: '',
       number: '',
     }))
+
+     
+    toast.success(`${name} has succesfully added to your phonebook`)  
     resetForm()
   }
   
