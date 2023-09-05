@@ -45,15 +45,11 @@ componentDidMount = () => {
 
     const isAddedNewContact = prevState.contacts !== this.state.contacts 
       
-    // const isAddedSearchFilters = prevState.filter !== this.state.filter
-      
     if (isAddedNewContact) 
     localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
     }
     
-       
-  
-  
+     
   handleSubmit = (values,{resetForm})  => {
     const { contacts, name } = values
 
